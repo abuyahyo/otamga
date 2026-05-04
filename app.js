@@ -75,8 +75,6 @@ const state = {
 const els = {
     pageInput: document.getElementById('pageInput'),
     showBtn: document.getElementById('showBtn'),
-    prevBtn: document.getElementById('prevBtn'),
-    nextBtn: document.getElementById('nextBtn'),
     loadingDiv: document.getElementById('loadingDiv'),
     errorDiv: document.getElementById('errorDiv'),
     resultSection: document.getElementById('resultSection'),
@@ -187,8 +185,6 @@ async function betniKorsatish() {
 
         els.loadingDiv.style.display = 'none';
         els.resultSection.classList.add('active');
-        els.prevBtn.disabled = (betRaqami <= PAGES_MIN);
-        els.nextBtn.disabled = (betRaqami >= PAGES_MAX);
     } catch (error) {
         if (error.name === 'AbortError') {
             return;
@@ -422,25 +418,7 @@ els.stickyProgressTrack.addEventListener('pointercancel', () => {
     state.seeking = false;
 });
 
-function oldingiBet() {
-    if (state.joriyBet > PAGES_MIN) {
-        els.pageInput.value = state.joriyBet - 1;
-        betniKorsatish();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
-
-function keyingiBet() {
-    if (state.joriyBet < PAGES_MAX) {
-        els.pageInput.value = state.joriyBet + 1;
-        betniKorsatish();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
-
 els.showBtn.addEventListener('click', betniKorsatish);
-els.prevBtn.addEventListener('click', oldingiBet);
-els.nextBtn.addEventListener('click', keyingiBet);
 els.playAllBtn.addEventListener('click', hammasiniQoyish);
 els.pauseAllBtn.addEventListener('click', hammasiniToxtatish);
 els.stickyToggleBtn.addEventListener('click', stickyToxtatishToggle);

@@ -202,45 +202,6 @@ input:focus {
     opacity: 0.6;
 }
 
-.nav-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.btn-nav {
-    flex: 1;
-    padding: 13px;
-    font-size: 16px;
-    font-weight: 600;
-    background: var(--surface);
-    color: var(--primary);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all var(--transition);
-    font-family: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.btn-nav:hover:not(:disabled) {
-    background: var(--accent);
-    color: var(--text-inverse);
-    border-color: var(--accent);
-}
-
-.btn-nav:active:not(:disabled) {
-    transform: scale(0.97);
-}
-
-.btn-nav:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
 .result-section {
     margin-top: 24px;
     display: none;
