@@ -279,17 +279,18 @@ input:focus {
 }
 
 .surah-divider {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: var(--text-inverse);
-    padding: 18px 16px;
+    background: linear-gradient(135deg, #0f2a20, #1c4030);
+    color: var(--text);
+    padding: 22px 16px;
     border-radius: var(--radius);
     text-align: center;
-    margin: 22px 0 18px;
+    margin: 26px 0 18px;
     font-size: 20px;
     font-weight: 700;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow);
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.18);
 }
 
 .surah-divider::before {
@@ -320,21 +321,22 @@ input:focus {
 }
 
 .surah-divider .surah-name {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
     letter-spacing: 0.3px;
     display: inline-block;
+    color: var(--gold-light);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .surah-divider .surah-num {
     display: block;
-    margin-top: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gold-light);
-    letter-spacing: 1.2px;
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    opacity: 0.85;
 }
 
 .ayat-card {
