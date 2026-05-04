@@ -405,25 +405,6 @@ input:focus {
     transform: translateY(-1px);
 }
 
-.btn-pause {
-    background: var(--warn);
-}
-
-.btn-pause:hover {
-    background: var(--warn-hover);
-    transform: translateY(-1px);
-}
-
-.btn-replay {
-    background: var(--primary);
-    color: var(--text-inverse);
-}
-
-.btn-replay:hover {
-    background: var(--primary-hover);
-    transform: translateY(-1px);
-}
-
 .loading {
     text-align: center;
     font-size: 18px;

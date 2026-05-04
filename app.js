@@ -260,15 +260,7 @@ function betniRender() {
         playBtn.appendChild(document.createTextNode('Эшитиш'));
         playBtn.addEventListener('click', () => oyatniQoyish(index));
 
-        const replayBtn = document.createElement('button');
-        replayBtn.className = 'audio-btn btn-replay';
-        replayBtn.type = 'button';
-        replayBtn.appendChild(icon('replay'));
-        replayBtn.appendChild(document.createTextNode('Қайта эшитиш'));
-        replayBtn.addEventListener('click', () => oyatniQaytaQoyish(index));
-
         controls.appendChild(playBtn);
-        controls.appendChild(replayBtn);
 
         card.appendChild(header);
         card.appendChild(arabic);
@@ -358,11 +350,6 @@ function oyatniQoyish(index, autoMode = false) {
     audio.play().catch(err => {
         xatolikniKorsatish('Аудиони қўйишда муаммо: ' + err.message);
     });
-}
-
-function oyatniQaytaQoyish(index) {
-    state.avtomatikQoyish = false;
-    oyatniQoyish(index, false);
 }
 
 function hammasiniToxtatish() {
