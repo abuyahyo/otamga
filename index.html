@@ -3,14 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1b4332">
 <title>Қуръон бетларини текшириш — Шайх Айман Сувайд</title>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=5">
+<script>
+    (function() {
+        const saved = localStorage.getItem('theme');
+        const theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+    })();
+</script>
 </head>
 <body>
 
 <div class="container">
     <header>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Режимни алмаштириш">🌙</button>
         <h1>📖 Қуръон бетларини текшириш</h1>
         <p>Қори: Шайх Айман Сувайд (ҳафизаҳуллоҳ)</p>
     </header>
@@ -18,7 +27,7 @@
     <div class="form-section">
         <div class="form-group">
             <label for="pageInput">Бет рақамини киритинг (1 — 604):</label>
-            <input type="number" id="pageInput" min="1" max="604" step="1" placeholder="Масалан: 1">
+            <input type="number" id="pageInput" min="1" max="604" step="1" placeholder="Масалан: 1" inputmode="numeric">
         </div>
 
         <button class="btn btn-primary" id="showBtn" type="button">
@@ -36,7 +45,11 @@
     </div>
 
     <div id="loadingDiv" class="loading" style="display: none;">
-        ⏳ Юкланмоқда, илтимос кутинг...
+        <div class="skeleton-list">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
     </div>
 
     <div id="errorDiv" class="error" style="display: none;"></div>
@@ -61,7 +74,18 @@
     </div>
 </div>
 
-<script src="app.js?v=4" defer></script>
+<div class="sticky-audio" id="stickyAudio" role="region" aria-label="Аудио плеер">
+    <div class="sticky-info">
+        <div class="sticky-title" id="stickyTitle">—</div>
+        <div class="sticky-progress">
+            <div class="sticky-progress-bar" id="stickyProgressBar"></div>
+        </div>
+    </div>
+    <button class="sticky-btn" id="stickyToggleBtn" type="button" aria-label="Қўйиш/Тўхтатиш">⏸</button>
+    <button class="sticky-close" id="stickyCloseBtn" type="button" aria-label="Ёпиш">✕</button>
+</div>
+
+<script src="app.js?v=5" defer></script>
 
 </body>
 </html>

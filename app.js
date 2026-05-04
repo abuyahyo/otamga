@@ -20,6 +20,7 @@ const state = {
     joriyOyatIndex: -1,
     avtomatikQoyish: false,
     abortController: null,
+    fallbackIndex: 0,
 };
 
 const els = {
@@ -34,10 +35,30 @@ const els = {
     ayatlarRoyxati: document.getElementById('ayatlarRoyxati'),
     playAllBtn: document.getElementById('playAllBtn'),
     pauseAllBtn: document.getElementById('pauseAllBtn'),
+    themeToggle: document.getElementById('themeToggle'),
+    stickyAudio: document.getElementById('stickyAudio'),
+    stickyTitle: document.getElementById('stickyTitle'),
+    stickyProgressBar: document.getElementById('stickyProgressBar'),
+    stickyToggleBtn: document.getElementById('stickyToggleBtn'),
+    stickyCloseBtn: document.getElementById('stickyCloseBtn'),
 };
 
 const audio = new Audio();
 audio.preload = 'auto';
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    els.themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    applyTheme(next);
+}
+
+applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
 
 function xatolikniKorsatish(xabar) {
     els.errorDiv.textContent = '❌ ' + xabar;
@@ -52,6 +73,21 @@ function xatolikniYashirish() {
 function playingnyOlibTashlash() {
     const oldCard = document.getElementById(`ayat-${state.joriyOyatIndex}`);
     if (oldCard) oldCard.classList.remove('playing');
+}
+
+function stickyKorsatish(oyat) {
+    els.stickyTitle.textContent = `${oyat.suraRaqami}:${oyat.oyatRaqami}-оят`;
+    els.stickyProgressBar.style.width = '0%';
+    els.stickyAudio.classList.add('visible');
+}
+
+function stickyYashirish() {
+    els.stickyAudio.classList.remove('visible');
+    els.stickyProgressBar.style.width = '0%';
+}
+
+function stickyTogglenyYangilash() {
+    els.stickyToggleBtn.textContent = audio.paused ? '▶' : '⏸';
 }
 
 async function betniKorsatish() {
@@ -119,7 +155,7 @@ async function betniKorsatish() {
 }
 
 function betniRender() {
-    els.pageInfo.textContent = `📄 ${state.joriyBet}-бет`;
+    els.pageInfo.textContent = `${state.joriyBet}-бет`;
     els.ayatlarRoyxati.replaceChildren();
 
     let oldingiSuraRaqami = -1;
@@ -128,11 +164,24 @@ function betniRender() {
         if (oyat.suraRaqami !== oldingiSuraRaqami) {
             const divider = document.createElement('div');
             divider.className = 'surah-divider';
-            divider.appendChild(document.createTextNode(`📿 ${oyat.suraRaqami}-сура: `));
+            divider.style.animationDelay = `${index * 30}ms`;
+
+            const ornL = document.createElement('span');
+            ornL.className = 'ornament';
+            ornL.textContent = '✦';
+            const num = document.createTextNode(`${oyat.suraRaqami}-сура`);
             const nameSpan = document.createElement('span');
             nameSpan.className = 'surah-name';
             nameSpan.textContent = oyat.suraNomi;
+            const ornR = document.createElement('span');
+            ornR.className = 'ornament';
+            ornR.textContent = '✦';
+
+            divider.appendChild(ornL);
+            divider.appendChild(num);
             divider.appendChild(nameSpan);
+            divider.appendChild(ornR);
+
             els.ayatlarRoyxati.appendChild(divider);
             oldingiSuraRaqami = oyat.suraRaqami;
         }
@@ -140,6 +189,7 @@ function betniRender() {
         const card = document.createElement('div');
         card.className = 'ayat-card';
         card.id = `ayat-${index}`;
+        card.style.animationDelay = `${index * 40}ms`;
 
         const header = document.createElement('div');
         header.className = 'ayat-header';
@@ -160,10 +210,12 @@ function betniRender() {
         controls.className = 'ayat-controls';
         const playBtn = document.createElement('button');
         playBtn.className = 'audio-btn btn-play';
+        playBtn.type = 'button';
         playBtn.textContent = '▶️ Эшитиш';
         playBtn.addEventListener('click', () => oyatniQoyish(index));
         const replayBtn = document.createElement('button');
         replayBtn.className = 'audio-btn btn-replay';
+        replayBtn.type = 'button';
         replayBtn.textContent = '🔄 Қайта эшитиш';
         replayBtn.addEventListener('click', () => oyatniQaytaQoyish(index));
         controls.appendChild(playBtn);
@@ -184,8 +236,20 @@ audio.addEventListener('ended', () => {
     } else {
         state.avtomatikQoyish = false;
         state.joriyOyatIndex = -1;
+        stickyYashirish();
     }
 });
+
+audio.addEventListener('timeupdate', () => {
+    if (audio.duration > 0 && isFinite(audio.duration)) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        els.stickyProgressBar.style.width = pct + '%';
+    }
+});
+
+audio.addEventListener('play', stickyTogglenyYangilash);
+audio.addEventListener('pause', stickyTogglenyYangilash);
+audio.addEventListener('playing', stickyTogglenyYangilash);
 
 const ERR_CODES = {
     1: 'ABORTED',
@@ -207,6 +271,7 @@ audio.addEventListener('error', () => {
     }
     state.avtomatikQoyish = false;
     playingnyOlibTashlash();
+    stickyYashirish();
     const code = audio.error?.code;
     const codeName = ERR_CODES[code] || `code ${code}`;
     xatolikniKorsatish(`Аудиони юклашда муаммо (${codeName}).`);
@@ -219,18 +284,22 @@ function oyatniQoyish(index, autoMode = false) {
     state.avtomatikQoyish = autoMode;
     state.fallbackIndex = 0;
 
+    const oyat = state.oyatlar[index];
+    if (!oyat) return;
+
     const yangiCard = document.getElementById(`ayat-${index}`);
     if (yangiCard) {
         yangiCard.classList.add('playing');
         yangiCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    const urls = state.oyatlar[index]?.audioUrls || [];
+    const urls = oyat.audioUrls || [];
     if (urls.length === 0) {
         xatolikniKorsatish('Бу оят учун аудио манзил топилмади.');
         return;
     }
 
+    stickyKorsatish(oyat);
     audio.src = urls[0];
     audio.play().catch(err => {
         xatolikniKorsatish('Аудиони қўйишда муаммо: ' + err.message);
@@ -253,6 +322,15 @@ function hammasiniToxtatish() {
     audio.pause();
     playingnyOlibTashlash();
     state.joriyOyatIndex = -1;
+    stickyYashirish();
+}
+
+function stickyToxtatishToggle() {
+    if (audio.paused) {
+        audio.play().catch(() => {});
+    } else {
+        audio.pause();
+    }
 }
 
 function oldingiBet() {
@@ -276,6 +354,9 @@ els.prevBtn.addEventListener('click', oldingiBet);
 els.nextBtn.addEventListener('click', keyingiBet);
 els.playAllBtn.addEventListener('click', hammasiniQoyish);
 els.pauseAllBtn.addEventListener('click', hammasiniToxtatish);
+els.themeToggle.addEventListener('click', toggleTheme);
+els.stickyToggleBtn.addEventListener('click', stickyToxtatishToggle);
+els.stickyCloseBtn.addEventListener('click', hammasiniToxtatish);
 
 els.pageInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
