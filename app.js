@@ -4,6 +4,16 @@ const PAGES_MIN = 1;
 const PAGES_MAX = 604;
 const API_BASE = 'https://api.alquran.cloud/v1/page';
 
+function buildAudioUrls(suraRaqami, oyatRaqami) {
+    const s = String(suraRaqami).padStart(3, '0');
+    const a = String(oyatRaqami).padStart(3, '0');
+    return [
+        `https://everyayah.com/data/Ayman_Sowaid_64kbps/${s}${a}.mp3`,
+        `https://www.everyayah.com/data/Ayman_Sowaid_64kbps/${s}${a}.mp3`,
+        `https://everyayah.com/data/Husary_64kbps/${s}${a}.mp3`,
+    ];
+}
+
 const state = {
     joriyBet: 0,
     oyatlar: [],
@@ -101,46 +111,27 @@ async function betniKorsatish() {
 
     try {
         const matnURL = `${API_BASE}/${betRaqami}/quran-uthmani`;
-        const audioURL = `${API_BASE}/${betRaqami}/ar.aymanswaid`;
+        const matnResponse = await fetch(matnURL, { signal });
 
-        const [matnResponse, audioResponse] = await Promise.all([
-            fetch(matnURL, { signal }),
-            fetch(audioURL, { signal }),
-        ]);
-
-        if (!matnResponse.ok || !audioResponse.ok) {
-            throw new Error(`API status: ${matnResponse.status}/${audioResponse.status}`);
+        if (!matnResponse.ok) {
+            throw new Error(`API status: ${matnResponse.status}`);
         }
 
         const matnData = await matnResponse.json();
-        const audioData = await audioResponse.json();
 
-        if (
-            matnData.code !== 200 ||
-            audioData.code !== 200 ||
-            !Array.isArray(matnData.data?.ayahs) ||
-            !Array.isArray(audioData.data?.ayahs) ||
-            matnData.data.ayahs.length !== audioData.data.ayahs.length
-        ) {
+        if (matnData.code !== 200 || !Array.isArray(matnData.data?.ayahs)) {
             throw new Error('API дан хато қайтди');
         }
 
         state.joriyBet = betRaqami;
-        state.oyatlar = matnData.data.ayahs.map((oyat, index) => {
-            const a = audioData.data.ayahs[index];
-            const primary = (a?.audio || '').replace(/^http:/, 'https:');
-            const secondary = Array.isArray(a?.audioSecondary)
-                ? a.audioSecondary.map(u => u.replace(/^http:/, 'https:'))
-                : [];
-            return {
-                matn: oyat.text,
-                oyatRaqami: oyat.numberInSurah,
-                suraRaqami: oyat.surah.number,
-                suraNomi: oyat.surah.name,
-                suraNomiEn: oyat.surah.englishName,
-                audioUrls: [primary, ...secondary].filter(Boolean),
-            };
-        });
+        state.oyatlar = matnData.data.ayahs.map((oyat) => ({
+            matn: oyat.text,
+            oyatRaqami: oyat.numberInSurah,
+            suraRaqami: oyat.surah.number,
+            suraNomi: oyat.surah.name,
+            suraNomiEn: oyat.surah.englishName,
+            audioUrls: buildAudioUrls(oyat.surah.number, oyat.numberInSurah),
+        }));
 
         betniRender();
 
