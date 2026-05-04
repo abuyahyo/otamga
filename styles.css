@@ -91,10 +91,13 @@ header::after {
     border-radius: 2px;
 }
 
-header p {
-    color: var(--text-muted);
-    font-size: 17px;
-    font-style: italic;
+header h1 {
+    color: var(--gold-light);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 1.35;
+    margin: 4px 0;
 }
 
 .form-section {
@@ -625,8 +628,8 @@ input:focus {
         padding: 18px;
     }
 
-    header p {
-        font-size: 14px;
+    header h1 {
+        font-size: 18px;
     }
 
     .arabic-text {
