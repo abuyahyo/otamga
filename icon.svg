@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbfaf3"/>
+      <stop offset="100%" stop-color="#eef5ee"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#b8941f"/>
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" fill="url(#bg)"/>
+  <text x="90" y="105"
+        text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="44"
+        font-weight="700"
+        fill="#1b4332"
+        letter-spacing="-0.5">Отамга</text>
+  <rect x="55" y="120" width="70" height="4" rx="2" fill="url(#gold)"/>
+  <text x="90" y="148"
+        text-anchor="middle"
+        font-family="Georgia, serif"
+        font-size="13"
+        font-weight="400"
+        fill="#5a6e5a"
+        letter-spacing="2">ҚУРЪОН</text>
+</svg>
