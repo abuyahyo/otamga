@@ -1,0 +1,339 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background-color: #f5f9f5;
+    color: #2c3e2c;
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 100, 0, 0.1);
+    padding: 30px;
+    border: 2px solid #e0f0e0;
+}
+
+header {
+    text-align: center;
+    padding-bottom: 25px;
+    border-bottom: 3px solid #2d6a4f;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #1b4332;
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+header p {
+    color: #52796f;
+    font-size: 20px;
+}
+
+.form-section {
+    background: #f0f8f0;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #c8e0c8;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1b4332;
+    margin-bottom: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 18px;
+    font-size: 24px;
+    border: 2px solid #95d5b2;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #2c3e2c;
+    transition: border-color 0.3s;
+    text-align: center;
+    font-weight: 600;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2d6a4f;
+    box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.2);
+}
+
+.btn {
+    width: 100%;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background-color: #2d6a4f;
+    color: white;
+    box-shadow: 0 4px 10px rgba(45, 106, 79, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: #1b4332;
+    transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-nav {
+    flex: 1;
+    padding: 16px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #52796f;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-nav:hover {
+    background-color: #2d6a4f;
+}
+
+.btn-nav:disabled {
+    background-color: #b0c4b0;
+    cursor: not-allowed;
+}
+
+.result-section {
+    margin-top: 30px;
+    display: none;
+}
+
+.result-section.active {
+    display: block;
+}
+
+.page-info {
+    text-align: center;
+    font-size: 24px;
+    color: #2d6a4f;
+    margin-bottom: 20px;
+    font-weight: 700;
+    padding: 15px;
+    background: #e8f5e8;
+    border-radius: 10px;
+    border: 2px solid #95d5b2;
+}
+
+.ayat-card {
+    background: #fdfdf5;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #d4e8d4;
+    transition: all 0.3s;
+}
+
+.ayat-card.playing {
+    border-color: #2d6a4f;
+    box-shadow: 0 0 15px rgba(45, 106, 79, 0.3);
+    background: #f0f8f0;
+}
+
+.ayat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed #95d5b2;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ayat-info {
+    font-size: 20px;
+    color: #2d6a4f;
+    font-weight: 600;
+}
+
+.ayat-number {
+    background: #2d6a4f;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.arabic-text {
+    font-family: 'Scheherazade New', 'Amiri', serif;
+    font-size: 38px;
+    line-height: 2;
+    text-align: right;
+    color: #1b4332;
+    padding: 20px 15px;
+    direction: rtl;
+    background: #ffffff;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #e0f0e0;
+}
+
+.ayat-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.audio-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 14px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: white;
+}
+
+.btn-play {
+    background-color: #40916c;
+}
+
+.btn-play:hover {
+    background-color: #2d6a4f;
+}
+
+.btn-pause {
+    background-color: #d68c45;
+}
+
+.btn-pause:hover {
+    background-color: #b87333;
+}
+
+.btn-replay {
+    background-color: #1b4332;
+}
+
+.btn-replay:hover {
+    background-color: #081c15;
+}
+
+.global-controls {
+    background: #e8f5e8;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #95d5b2;
+    text-align: center;
+}
+
+.global-controls h3 {
+    color: #1b4332;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.global-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.loading {
+    text-align: center;
+    font-size: 22px;
+    color: #2d6a4f;
+    padding: 30px;
+}
+
+.error {
+    background-color: #ffe5e5;
+    color: #c0392b;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
+    border: 2px solid #e74c3c;
+    margin-top: 20px;
+}
+
+.info-text {
+    font-size: 18px;
+    color: #52796f;
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.surah-divider {
+    background: linear-gradient(135deg, #2d6a4f, #40916c);
+    color: white;
+    padding: 18px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.surah-name {
+    font-family: 'Scheherazade New', serif;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    .arabic-text {
+        font-size: 32px;
+        padding: 15px 10px;
+    }
+
+    .audio-btn {
+        min-width: 100%;
+    }
+}
