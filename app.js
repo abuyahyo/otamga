@@ -93,14 +93,21 @@ async function betniKorsatish() {
         }
 
         state.joriyBet = betRaqami;
-        state.oyatlar = matnData.data.ayahs.map((oyat, index) => ({
-            matn: oyat.text,
-            oyatRaqami: oyat.numberInSurah,
-            suraRaqami: oyat.surah.number,
-            suraNomi: oyat.surah.name,
-            suraNomiEn: oyat.surah.englishName,
-            audioUrl: audioData.data.ayahs[index]?.audio,
-        }));
+        state.oyatlar = matnData.data.ayahs.map((oyat, index) => {
+            const a = audioData.data.ayahs[index];
+            const primary = (a?.audio || '').replace(/^http:/, 'https:');
+            const secondary = Array.isArray(a?.audioSecondary)
+                ? a.audioSecondary.map(u => u.replace(/^http:/, 'https:'))
+                : [];
+            return {
+                matn: oyat.text,
+                oyatRaqami: oyat.numberInSurah,
+                suraRaqami: oyat.surah.number,
+                suraNomi: oyat.surah.name,
+                suraNomiEn: oyat.surah.englishName,
+                audioUrls: [primary, ...secondary].filter(Boolean),
+            };
+        });
 
         betniRender();
 
@@ -188,11 +195,29 @@ audio.addEventListener('ended', () => {
     }
 });
 
+const ERR_CODES = {
+    1: 'ABORTED',
+    2: 'NETWORK',
+    3: 'DECODE',
+    4: 'SRC_NOT_SUPPORTED',
+};
+
 audio.addEventListener('error', () => {
     if (!audio.src) return;
+    const oyat = state.oyatlar[state.joriyOyatIndex];
+    const fallbacks = oyat?.audioUrls || [];
+    const nextIndex = (state.fallbackIndex ?? 0) + 1;
+    if (nextIndex < fallbacks.length) {
+        state.fallbackIndex = nextIndex;
+        audio.src = fallbacks[nextIndex];
+        audio.play().catch(() => {});
+        return;
+    }
     state.avtomatikQoyish = false;
     playingnyOlibTashlash();
-    xatolikniKorsatish('Аудиони юклашда муаммо. Интернет уланишини текширинг.');
+    const code = audio.error?.code;
+    const codeName = ERR_CODES[code] || `code ${code}`;
+    xatolikniKorsatish(`Аудиони юклашда муаммо (${codeName}). URL: ${audio.src}`);
 });
 
 function oyatniQoyish(index, autoMode = false) {
@@ -200,6 +225,7 @@ function oyatniQoyish(index, autoMode = false) {
 
     state.joriyOyatIndex = index;
     state.avtomatikQoyish = autoMode;
+    state.fallbackIndex = 0;
 
     const yangiCard = document.getElementById(`ayat-${index}`);
     if (yangiCard) {
@@ -207,15 +233,15 @@ function oyatniQoyish(index, autoMode = false) {
         yangiCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    const url = state.oyatlar[index]?.audioUrl;
-    if (!url) {
+    const urls = state.oyatlar[index]?.audioUrls || [];
+    if (urls.length === 0) {
         xatolikniKorsatish('Бу оят учун аудио манзил топилмади.');
         return;
     }
 
-    audio.src = url;
+    audio.src = urls[0];
     audio.play().catch(err => {
-        xatolikniKorsatish('Аудиони қўйишда муаммо: ' + err.message);
+        xatolikniKorsatish('Аудиони қўйишда муаммо: ' + err.message + ' — ' + audio.src);
     });
 }
 
