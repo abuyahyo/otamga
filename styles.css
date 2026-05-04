@@ -319,40 +319,6 @@ input:focus {
     font-family: 'Scheherazade New', serif;
 }
 
-.debug-panel {
-    background: #1e1e1e;
-    color: #9cdcfe;
-    font-family: monospace;
-    font-size: 13px;
-    padding: 12px;
-    border-radius: 8px;
-    margin-top: 15px;
-    word-break: break-all;
-    max-height: 220px;
-    overflow-y: auto;
-}
-
-.debug-panel strong {
-    color: #ffd700;
-    display: block;
-    margin-bottom: 6px;
-}
-
-.debug-panel #debugInfo {
-    color: #ce9178;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #444;
-}
-
-.debug-panel .log-line {
-    color: #b5cea8;
-    line-height: 1.4;
-}
-
-.debug-panel .log-line.warn { color: #f48771; }
-.debug-panel .log-line.ok { color: #4ec9b0; }
-
 @media (max-width: 600px) {
     .container {
         padding: 20px;
