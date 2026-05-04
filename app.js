@@ -35,7 +35,6 @@ const els = {
     ayatlarRoyxati: document.getElementById('ayatlarRoyxati'),
     playAllBtn: document.getElementById('playAllBtn'),
     pauseAllBtn: document.getElementById('pauseAllBtn'),
-    themeToggle: document.getElementById('themeToggle'),
     stickyAudio: document.getElementById('stickyAudio'),
     stickyTitle: document.getElementById('stickyTitle'),
     stickyProgressBar: document.getElementById('stickyProgressBar'),
@@ -45,20 +44,6 @@ const els = {
 
 const audio = new Audio();
 audio.preload = 'auto';
-
-function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    els.themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-}
-
-function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('theme', next);
-    applyTheme(next);
-}
-
-applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
 
 function xatolikniKorsatish(xabar) {
     els.errorDiv.textContent = '❌ ' + xabar;
@@ -354,7 +339,6 @@ els.prevBtn.addEventListener('click', oldingiBet);
 els.nextBtn.addEventListener('click', keyingiBet);
 els.playAllBtn.addEventListener('click', hammasiniQoyish);
 els.pauseAllBtn.addEventListener('click', hammasiniToxtatish);
-els.themeToggle.addEventListener('click', toggleTheme);
 els.stickyToggleBtn.addEventListener('click', stickyToxtatishToggle);
 els.stickyCloseBtn.addEventListener('click', hammasiniToxtatish);
 

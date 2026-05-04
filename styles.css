@@ -1,36 +1,4 @@
 :root {
-    --bg: #f4f7f1;
-    --surface: #ffffff;
-    --surface-2: #fbfaf3;
-    --surface-3: #eef5ee;
-    --border: #d8e7d3;
-    --border-strong: #95d5b2;
-    --text: #1d2a1d;
-    --text-muted: #5a6e5a;
-    --text-inverse: #ffffff;
-    --primary: #1b4332;
-    --primary-hover: #0a3024;
-    --primary-light: #2d6a4f;
-    --accent: #40916c;
-    --accent-2: #52796f;
-    --warn: #c08e3a;
-    --warn-hover: #9a6e25;
-    --error-bg: #fceaea;
-    --error-border: #e07a7a;
-    --error-text: #a33333;
-    --gold: #b8941f;
-    --gold-light: #d4af37;
-    --gold-soft: #ecd9a2;
-    --shadow-sm: 0 2px 6px rgba(20, 60, 40, 0.06);
-    --shadow: 0 6px 24px rgba(20, 60, 40, 0.08);
-    --shadow-lg: 0 12px 36px rgba(20, 60, 40, 0.14);
-    --radius: 16px;
-    --radius-sm: 10px;
-    --radius-pill: 999px;
-    --transition: 200ms cubic-bezier(0.2, 0, 0.2, 1);
-}
-
-[data-theme="dark"] {
     --bg: #0a1c14;
     --surface: #122c20;
     --surface-2: #0f261b;
@@ -56,6 +24,10 @@
     --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
     --shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.5);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-pill: 999px;
+    --transition: 200ms cubic-bezier(0.2, 0, 0.2, 1);
 }
 
 * {
@@ -120,30 +92,6 @@ header p {
     font-style: italic;
 }
 
-.theme-toggle {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 42px;
-    height: 42px;
-    border-radius: var(--radius-pill);
-    border: 1px solid var(--border);
-    background: var(--surface-3);
-    color: var(--text);
-    font-size: 20px;
-    cursor: pointer;
-    transition: all var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.theme-toggle:hover {
-    background: var(--surface-2);
-    border-color: var(--gold);
-    transform: rotate(15deg);
-}
-
 .form-section {
     background: var(--surface-3);
     padding: 22px;
@@ -205,10 +153,6 @@ input:focus {
     overflow: hidden;
 }
 
-[data-theme="dark"] .btn-primary {
-    color: var(--text-inverse);
-}
-
 .btn-primary:hover {
     box-shadow: var(--shadow);
     transform: translateY(-1px);
@@ -249,10 +193,6 @@ input:focus {
     background: var(--accent);
     color: var(--text-inverse);
     border-color: var(--accent);
-}
-
-[data-theme="dark"] .btn-nav:hover:not(:disabled) {
-    color: var(--text-inverse);
 }
 
 .btn-nav:disabled {
@@ -403,17 +343,13 @@ input:focus {
     font-size: 36px;
     line-height: 2.1;
     text-align: right;
-    color: var(--primary);
+    color: var(--text);
     padding: 18px 14px;
     direction: rtl;
     background: var(--surface);
     border-radius: var(--radius-sm);
     margin-bottom: 14px;
     border: 1px solid var(--border);
-}
-
-[data-theme="dark"] .arabic-text {
-    color: var(--text);
 }
 
 .ayat-controls {
@@ -434,10 +370,6 @@ input:focus {
     transition: all var(--transition);
     color: var(--text-inverse);
     font-family: inherit;
-}
-
-[data-theme="dark"] .audio-btn {
-    color: var(--text-inverse);
 }
 
 .btn-play {
@@ -516,12 +448,8 @@ input:focus {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-    animation: shimmer 1.4s infinite;
-}
-
-[data-theme="dark"] .skeleton-card::after {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+    animation: shimmer 1.4s infinite;
 }
 
 @keyframes shimmer {
@@ -555,7 +483,7 @@ input:focus {
     right: 0;
     background: var(--surface);
     border-top: 1px solid var(--border);
-    box-shadow: 0 -8px 24px rgba(20, 60, 40, 0.12);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
     padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
     display: flex;
     align-items: center;
@@ -565,10 +493,6 @@ input:focus {
     transition: transform 280ms cubic-bezier(0.2, 0, 0.2, 1);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-}
-
-[data-theme="dark"] .sticky-audio {
-    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
 }
 
 .sticky-audio.visible {
@@ -623,10 +547,6 @@ input:focus {
     box-shadow: var(--shadow-sm);
 }
 
-[data-theme="dark"] .sticky-btn {
-    color: var(--text-inverse);
-}
-
 .sticky-btn:hover {
     transform: scale(1.05);
     box-shadow: var(--shadow);
@@ -665,12 +585,6 @@ input:focus {
 
     header p {
         font-size: 14px;
-    }
-
-    .theme-toggle {
-        width: 36px;
-        height: 36px;
-        font-size: 17px;
     }
 
     .arabic-text {

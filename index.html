@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1b4332" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0a1c14" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0a1c14">
 <title>Отамга — Қуръон бетларини текшириш</title>
 
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -15,23 +14,15 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Отамга">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=5">
-<script>
-    (function() {
-        const saved = localStorage.getItem('theme');
-        const theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-    })();
-</script>
+<link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
 
 <div class="container">
     <header>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Режимни алмаштириш">🌙</button>
         <h1>📖 Қуръон бетларини текшириш</h1>
         <p>Қори: Шайх Айман Сувайд (ҳафизаҳуллоҳ)</p>
     </header>
@@ -97,7 +88,7 @@
     <button class="sticky-close" id="stickyCloseBtn" type="button" aria-label="Ёпиш">✕</button>
 </div>
 
-<script src="app.js?v=5" defer></script>
+<script src="app.js?v=6" defer></script>
 
 </body>
 </html>
