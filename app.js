@@ -80,8 +80,6 @@ const els = {
     resultSection: document.getElementById('resultSection'),
     pageInfo: document.getElementById('pageInfo'),
     ayatlarRoyxati: document.getElementById('ayatlarRoyxati'),
-    playAllBtn: document.getElementById('playAllBtn'),
-    pauseAllBtn: document.getElementById('pauseAllBtn'),
     stickyAudio: document.getElementById('stickyAudio'),
     stickyTitle: document.getElementById('stickyTitle'),
     stickyTime: document.getElementById('stickyTime'),
@@ -367,12 +365,6 @@ function oyatniQaytaQoyish(index) {
     oyatniQoyish(index, false);
 }
 
-function hammasiniQoyish() {
-    if (state.oyatlar.length > 0) {
-        oyatniQoyish(0, true);
-    }
-}
-
 function hammasiniToxtatish() {
     state.avtomatikQoyish = false;
     audio.pause();
@@ -419,8 +411,6 @@ els.stickyProgressTrack.addEventListener('pointercancel', () => {
 });
 
 els.showBtn.addEventListener('click', betniKorsatish);
-els.playAllBtn.addEventListener('click', hammasiniQoyish);
-els.pauseAllBtn.addEventListener('click', hammasiniToxtatish);
 els.stickyToggleBtn.addEventListener('click', stickyToxtatishToggle);
 els.stickyCloseBtn.addEventListener('click', hammasiniToxtatish);
 

@@ -424,36 +424,6 @@ input:focus {
     transform: translateY(-1px);
 }
 
-.global-controls {
-    background: var(--surface-3);
-    padding: 18px;
-    border-radius: var(--radius);
-    margin-bottom: 18px;
-    border: 1px solid var(--border);
-    text-align: center;
-}
-
-.global-controls h3 {
-    color: var(--primary);
-    margin-bottom: 12px;
-    font-size: 17px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.global-controls h3 .icon {
-    color: var(--gold-light);
-}
-
-.global-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
 .loading {
     text-align: center;
     font-size: 18px;
@@ -508,14 +478,6 @@ input:focus {
 .error .icon {
     flex-shrink: 0;
     color: var(--error-border);
-}
-
-.info-text {
-    font-size: 14px;
-    color: var(--text-muted);
-    text-align: center;
-    margin-top: 10px;
-    font-style: italic;
 }
 
 .sticky-audio {
