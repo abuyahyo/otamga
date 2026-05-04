@@ -242,21 +242,14 @@ function betniRender() {
         const header = document.createElement('div');
         header.className = 'ayat-header';
 
-        const info = document.createElement('div');
-        info.className = 'ayat-info';
-        const sura = document.createElement('div');
+        const sura = document.createElement('span');
         sura.className = 'ayat-info-sura';
         sura.textContent = oyat.suraNomi;
-        const ref = document.createElement('div');
-        ref.className = 'ayat-info-ref';
-        ref.textContent = `${oyat.suraRaqami}:${oyat.oyatRaqami}-оят`;
-        info.appendChild(sura);
-        info.appendChild(ref);
-
         const num = document.createElement('span');
-        num.className = 'ayat-number';
-        num.textContent = oyat.oyatRaqami;
-        header.appendChild(info);
+        num.className = 'ayat-info-num';
+        num.textContent = `${oyat.oyatRaqami}-оят`;
+
+        header.appendChild(sura);
         header.appendChild(num);
 
         const arabic = document.createElement('div');
