@@ -6,6 +6,33 @@ const API_BASE = 'https://api.alquran.cloud/v1/page';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 
+const SURA_NOMLARI = [
+    null,
+    'Фотиҳа', 'Бақара', 'Оли Имрон', 'Нисо', 'Моида',
+    'Анъом', 'Аъроф', 'Анфол', 'Тавба', 'Юнус',
+    'Ҳуд', 'Юсуф', 'Раъд', 'Иброҳим', 'Ҳижр',
+    'Наҳл', 'Исро', 'Каҳф', 'Марям', 'Тоҳо',
+    'Анбиё', 'Ҳаж', 'Мўминун', 'Нур', 'Фурқон',
+    'Шуаро', 'Намл', 'Қасас', 'Анкабут', 'Рум',
+    'Луқмон', 'Сажда', 'Аҳзоб', 'Сабаъ', 'Фотир',
+    'Ёсин', 'Соффот', 'Сод', 'Зумар', 'Ғофир',
+    'Фуссилат', 'Шуро', 'Зухруф', 'Духон', 'Жосия',
+    'Аҳқоф', 'Муҳаммад', 'Фатҳ', 'Ҳужурот', 'Қоф',
+    'Зориёт', 'Тур', 'Нажм', 'Қамар', 'Раҳмон',
+    'Воқиа', 'Ҳадид', 'Мужодала', 'Ҳашр', 'Мумтаҳана',
+    'Соф', 'Жумъа', 'Мунофиқун', 'Тағобун', 'Талоқ',
+    'Таҳрим', 'Мулк', 'Қалам', 'Ҳоққа', 'Маориж',
+    'Нуҳ', 'Жин', 'Муззаммил', 'Муддассир', 'Қиёмат',
+    'Инсон', 'Мурсалот', 'Набаъ', 'Нозиот', 'Абаса',
+    'Таквир', 'Инфитор', 'Мутаффифин', 'Иншиқоқ', 'Буруж',
+    'Ториқ', 'Аъло', 'Ғошия', 'Фажр', 'Балад',
+    'Шамс', 'Лайл', 'Зуҳо', 'Шарҳ', 'Тин',
+    'Алақ', 'Қадр', 'Баййина', 'Залзала', 'Одиёт',
+    'Қориа', 'Такосур', 'Аср', 'Ҳумаза', 'Фил',
+    'Қурайш', 'Моун', 'Кавсар', 'Кофирун', 'Наср',
+    'Масад', 'Ихлос', 'Фалақ', 'Нос',
+];
+
 function buildAudioUrls(suraRaqami, oyatRaqami) {
     const s = String(suraRaqami).padStart(3, '0');
     const a = String(oyatRaqami).padStart(3, '0');
@@ -152,8 +179,7 @@ async function betniKorsatish() {
             matn: oyat.text,
             oyatRaqami: oyat.numberInSurah,
             suraRaqami: oyat.surah.number,
-            suraNomi: oyat.surah.name,
-            suraNomiEn: oyat.surah.englishName,
+            suraNomi: SURA_NOMLARI[oyat.surah.number] || oyat.surah.englishName,
             audioUrls: buildAudioUrls(oyat.surah.number, oyat.numberInSurah),
         }));
 
@@ -189,18 +215,20 @@ function betniRender() {
             const ornL = document.createElement('span');
             ornL.className = 'ornament';
             ornL.textContent = '✦';
-            const num = document.createTextNode(`${oyat.suraRaqami}-сура`);
             const nameSpan = document.createElement('span');
             nameSpan.className = 'surah-name';
             nameSpan.textContent = oyat.suraNomi;
+            const numSpan = document.createElement('span');
+            numSpan.className = 'surah-num';
+            numSpan.textContent = `${oyat.suraRaqami}-сура`;
             const ornR = document.createElement('span');
             ornR.className = 'ornament';
             ornR.textContent = '✦';
 
             divider.appendChild(ornL);
-            divider.appendChild(num);
             divider.appendChild(nameSpan);
             divider.appendChild(ornR);
+            divider.appendChild(numSpan);
 
             els.ayatlarRoyxati.appendChild(divider);
             oldingiSuraRaqami = oyat.suraRaqami;

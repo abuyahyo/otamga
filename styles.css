@@ -314,17 +314,27 @@ input:focus {
 
 .surah-divider .ornament {
     color: var(--gold-light);
-    margin: 0 10px;
+    margin: 0 12px;
     opacity: 0.85;
     font-size: 14px;
 }
 
 .surah-divider .surah-name {
-    font-family: 'Scheherazade New', 'Amiri', serif;
-    font-size: 26px;
-    margin-left: 6px;
-    direction: rtl;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
     display: inline-block;
+}
+
+.surah-divider .surah-num {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold-light);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    opacity: 0.85;
 }
 
 .ayat-card {
@@ -735,7 +745,7 @@ input:focus {
     }
 
     .surah-divider .surah-name {
-        font-size: 22px;
+        font-size: 19px;
     }
 }
 
