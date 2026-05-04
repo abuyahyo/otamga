@@ -43,10 +43,9 @@ function buildAudioUrls(suraRaqami, oyatRaqami) {
     ];
 }
 
-function icon(name, lg = false) {
+function icon(name) {
     const svg = document.createElementNS(SVG_NS, 'svg');
     svg.classList.add('icon');
-    if (lg) svg.classList.add('icon-lg');
     svg.setAttribute('aria-hidden', 'true');
     const use = document.createElementNS(SVG_NS, 'use');
     use.setAttribute('href', `#i-${name}`);
