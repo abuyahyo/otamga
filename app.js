@@ -3,6 +3,8 @@
 const PAGES_MIN = 1;
 const PAGES_MAX = 604;
 const API_BASE = 'https://api.alquran.cloud/v1/page';
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const XLINK_NS = 'http://www.w3.org/1999/xlink';
 
 function buildAudioUrls(suraRaqami, oyatRaqami) {
     const s = String(suraRaqami).padStart(3, '0');
@@ -14,6 +16,25 @@ function buildAudioUrls(suraRaqami, oyatRaqami) {
     ];
 }
 
+function icon(name, lg = false) {
+    const svg = document.createElementNS(SVG_NS, 'svg');
+    svg.classList.add('icon');
+    if (lg) svg.classList.add('icon-lg');
+    svg.setAttribute('aria-hidden', 'true');
+    const use = document.createElementNS(SVG_NS, 'use');
+    use.setAttribute('href', `#i-${name}`);
+    use.setAttributeNS(XLINK_NS, 'xlink:href', `#i-${name}`);
+    svg.appendChild(use);
+    return svg;
+}
+
+function fmtTime(s) {
+    if (!isFinite(s) || s < 0) return '0:00';
+    const m = Math.floor(s / 60);
+    const r = Math.floor(s % 60);
+    return `${m}:${String(r).padStart(2, '0')}`;
+}
+
 const state = {
     joriyBet: 0,
     oyatlar: [],
@@ -21,6 +42,7 @@ const state = {
     avtomatikQoyish: false,
     abortController: null,
     fallbackIndex: 0,
+    seeking: false,
 };
 
 const els = {
@@ -37,7 +59,10 @@ const els = {
     pauseAllBtn: document.getElementById('pauseAllBtn'),
     stickyAudio: document.getElementById('stickyAudio'),
     stickyTitle: document.getElementById('stickyTitle'),
+    stickyTime: document.getElementById('stickyTime'),
+    stickyProgressTrack: document.getElementById('stickyProgressTrack'),
     stickyProgressBar: document.getElementById('stickyProgressBar'),
+    stickyProgressHandle: document.getElementById('stickyProgressHandle'),
     stickyToggleBtn: document.getElementById('stickyToggleBtn'),
     stickyCloseBtn: document.getElementById('stickyCloseBtn'),
 };
@@ -46,8 +71,8 @@ const audio = new Audio();
 audio.preload = 'auto';
 
 function xatolikniKorsatish(xabar) {
-    els.errorDiv.textContent = '❌ ' + xabar;
-    els.errorDiv.style.display = 'block';
+    els.errorDiv.replaceChildren(icon('alert'), document.createTextNode(xabar));
+    els.errorDiv.style.display = 'flex';
     els.loadingDiv.style.display = 'none';
 }
 
@@ -60,20 +85,30 @@ function playingnyOlibTashlash() {
     if (oldCard) oldCard.classList.remove('playing');
 }
 
+function progressniYangilash(pct) {
+    const clamped = Math.max(0, Math.min(100, pct));
+    els.stickyProgressBar.style.width = clamped + '%';
+    els.stickyProgressHandle.style.left = clamped + '%';
+}
+
 function stickyKorsatish(oyat) {
     els.stickyTitle.textContent = `${oyat.suraRaqami}:${oyat.oyatRaqami}-оят`;
-    els.stickyProgressBar.style.width = '0%';
+    els.stickyTime.textContent = '0:00 / 0:00';
+    progressniYangilash(0);
     els.stickyAudio.classList.add('visible');
 }
 
 function stickyYashirish() {
     els.stickyAudio.classList.remove('visible');
-    els.stickyProgressBar.style.width = '0%';
+    progressniYangilash(0);
+    els.stickyTime.textContent = '0:00 / 0:00';
 }
 
 function stickyTogglenyYangilash() {
-    els.stickyToggleBtn.textContent = audio.paused ? '▶' : '⏸';
+    els.stickyToggleBtn.replaceChildren(icon(audio.paused ? 'play' : 'pause'));
 }
+
+stickyTogglenyYangilash();
 
 async function betniKorsatish() {
     xatolikniYashirish();
@@ -96,7 +131,7 @@ async function betniKorsatish() {
     els.loadingDiv.style.display = 'block';
     els.resultSection.classList.remove('active');
     els.showBtn.disabled = true;
-    els.showBtn.textContent = '⏳ Юкланмоқда...';
+    els.showBtn.querySelector('span').textContent = 'Юкланмоқда…';
 
     try {
         const matnURL = `${API_BASE}/${betRaqami}/quran-uthmani`;
@@ -135,7 +170,7 @@ async function betniKorsatish() {
         xatolikniKorsatish('Маълумотларни юклашда хатолик: ' + error.message + '. Интернет уланишини текширинг.');
     } finally {
         els.showBtn.disabled = false;
-        els.showBtn.textContent = '🔊 Бетни Кўрсатиш';
+        els.showBtn.querySelector('span').textContent = 'Бетни кўрсатиш';
     }
 }
 
@@ -193,16 +228,21 @@ function betniRender() {
 
         const controls = document.createElement('div');
         controls.className = 'ayat-controls';
+
         const playBtn = document.createElement('button');
         playBtn.className = 'audio-btn btn-play';
         playBtn.type = 'button';
-        playBtn.textContent = '▶️ Эшитиш';
+        playBtn.appendChild(icon('play'));
+        playBtn.appendChild(document.createTextNode('Эшитиш'));
         playBtn.addEventListener('click', () => oyatniQoyish(index));
+
         const replayBtn = document.createElement('button');
         replayBtn.className = 'audio-btn btn-replay';
         replayBtn.type = 'button';
-        replayBtn.textContent = '🔄 Қайта эшитиш';
+        replayBtn.appendChild(icon('replay'));
+        replayBtn.appendChild(document.createTextNode('Қайта эшитиш'));
         replayBtn.addEventListener('click', () => oyatniQaytaQoyish(index));
+
         controls.appendChild(playBtn);
         controls.appendChild(replayBtn);
 
@@ -226,10 +266,15 @@ audio.addEventListener('ended', () => {
 });
 
 audio.addEventListener('timeupdate', () => {
+    if (state.seeking) return;
     if (audio.duration > 0 && isFinite(audio.duration)) {
-        const pct = (audio.currentTime / audio.duration) * 100;
-        els.stickyProgressBar.style.width = pct + '%';
+        progressniYangilash((audio.currentTime / audio.duration) * 100);
     }
+    els.stickyTime.textContent = `${fmtTime(audio.currentTime)} / ${fmtTime(audio.duration)}`;
+});
+
+audio.addEventListener('loadedmetadata', () => {
+    els.stickyTime.textContent = `${fmtTime(audio.currentTime)} / ${fmtTime(audio.duration)}`;
 });
 
 audio.addEventListener('play', stickyTogglenyYangilash);
@@ -317,6 +362,35 @@ function stickyToxtatishToggle() {
         audio.pause();
     }
 }
+
+function progressBoyichaQidirish(clientX) {
+    if (!audio.duration || !isFinite(audio.duration)) return;
+    const rect = els.stickyProgressTrack.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    audio.currentTime = pct * audio.duration;
+    progressniYangilash(pct * 100);
+    els.stickyTime.textContent = `${fmtTime(audio.currentTime)} / ${fmtTime(audio.duration)}`;
+}
+
+els.stickyProgressTrack.addEventListener('pointerdown', (e) => {
+    state.seeking = true;
+    els.stickyProgressTrack.setPointerCapture(e.pointerId);
+    progressBoyichaQidirish(e.clientX);
+});
+
+els.stickyProgressTrack.addEventListener('pointermove', (e) => {
+    if (!state.seeking) return;
+    progressBoyichaQidirish(e.clientX);
+});
+
+els.stickyProgressTrack.addEventListener('pointerup', (e) => {
+    state.seeking = false;
+    els.stickyProgressTrack.releasePointerCapture(e.pointerId);
+});
+
+els.stickyProgressTrack.addEventListener('pointercancel', () => {
+    state.seeking = false;
+});
 
 function oldingiBet() {
     if (state.joriyBet > PAGES_MIN) {

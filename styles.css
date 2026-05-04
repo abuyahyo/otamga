@@ -36,6 +36,25 @@
     box-sizing: border-box;
 }
 
+button, a, input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: -3px;
+    flex-shrink: 0;
+    color: currentColor;
+}
+
+.icon-lg {
+    width: 26px;
+    height: 26px;
+    vertical-align: -5px;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
     background: var(--bg);
@@ -80,10 +99,20 @@ header::after {
 
 header h1 {
     color: var(--primary);
-    font-size: 30px;
+    font-size: 28px;
     margin-bottom: 8px;
     font-weight: 700;
     letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+header h1 .icon-lg {
+    color: var(--gold-light);
+    vertical-align: middle;
 }
 
 header p {
@@ -151,6 +180,10 @@ input:focus {
     box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .btn-primary:hover {
@@ -159,7 +192,7 @@ input:focus {
 }
 
 .btn-primary:active {
-    transform: translateY(0);
+    transform: scale(0.98);
 }
 
 .btn-primary:disabled {
@@ -187,12 +220,20 @@ input:focus {
     cursor: pointer;
     transition: all var(--transition);
     font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-nav:hover:not(:disabled) {
     background: var(--accent);
     color: var(--text-inverse);
     border-color: var(--accent);
+}
+
+.btn-nav:active:not(:disabled) {
+    transform: scale(0.97);
 }
 
 .btn-nav:disabled {
@@ -303,8 +344,17 @@ input:focus {
 
 .ayat-card.playing {
     border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(184, 148, 31, 0.15), var(--shadow);
     background: var(--surface-3);
+    animation: gentle-pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes gentle-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18), var(--shadow);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.32), var(--shadow-lg);
+    }
 }
 
 .ayat-header {
@@ -370,6 +420,14 @@ input:focus {
     transition: all var(--transition);
     color: var(--text-inverse);
     font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.audio-btn:active {
+    transform: scale(0.97);
 }
 
 .btn-play {
@@ -392,6 +450,7 @@ input:focus {
 
 .btn-replay {
     background: var(--primary);
+    color: var(--text-inverse);
 }
 
 .btn-replay:hover {
@@ -413,6 +472,14 @@ input:focus {
     margin-bottom: 12px;
     font-size: 17px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.global-controls h3 .icon {
+    color: var(--gold-light);
 }
 
 .global-buttons {
@@ -460,12 +527,21 @@ input:focus {
 .error {
     background: var(--error-bg);
     color: var(--error-text);
-    padding: 16px;
+    padding: 14px 16px;
     border-radius: var(--radius-sm);
-    font-size: 16px;
-    text-align: center;
+    font-size: 15px;
+    text-align: left;
     border: 1px solid var(--error-border);
     margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.4;
+}
+
+.error .icon {
+    flex-shrink: 0;
+    color: var(--error-border);
 }
 
 .info-text {
@@ -502,6 +578,15 @@ input:focus {
 .sticky-info {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sticky-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
 }
 
 .sticky-title {
@@ -512,22 +597,66 @@ input:focus {
     text-overflow: ellipsis;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
+    flex: 1;
+    min-width: 0;
+}
+
+.sticky-time {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    letter-spacing: 0.3px;
 }
 
 .sticky-progress {
-    margin-top: 6px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    touch-action: none;
+}
+
+.sticky-progress::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
     height: 5px;
     background: var(--surface-3);
     border-radius: var(--radius-pill);
-    overflow: hidden;
 }
 
 .sticky-progress-bar {
-    height: 100%;
+    height: 5px;
     width: 0%;
     background: linear-gradient(90deg, var(--gold), var(--gold-light));
     transition: width 100ms linear;
     border-radius: var(--radius-pill);
+    position: relative;
+    z-index: 1;
+}
+
+.sticky-progress-handle {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 12px;
+    height: 12px;
+    background: var(--gold-light);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
+    transition: left 100ms linear, transform 150ms ease;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.sticky-progress:hover .sticky-progress-handle,
+.sticky-progress:active .sticky-progress-handle {
+    transform: translate(-50%, -50%) scale(1.25);
 }
 
 .sticky-btn {
@@ -548,8 +677,11 @@ input:focus {
 }
 
 .sticky-btn:hover {
-    transform: scale(1.05);
     box-shadow: var(--shadow);
+}
+
+.sticky-btn:active {
+    transform: scale(0.92);
 }
 
 .sticky-close {
@@ -562,12 +694,18 @@ input:focus {
     cursor: pointer;
     transition: all var(--transition);
     flex-shrink: 0;
-    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sticky-close:hover {
     color: var(--error-text);
     border-color: var(--error-border);
+}
+
+.sticky-close:active {
+    transform: scale(0.92);
 }
 
 @media (max-width: 600px) {

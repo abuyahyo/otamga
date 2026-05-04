@@ -17,13 +17,60 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=6">
+<link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+        <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </symbol>
+        <symbol id="i-volume" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5L6 9H2v6h4l5 4z" fill="currentColor"/>
+            <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+            <path d="M19 5a10 10 0 0 1 0 14"/>
+        </symbol>
+        <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5"/>
+            <path d="M12 5l-7 7 7 7"/>
+        </symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/>
+            <path d="M12 5l7 7-7 7"/>
+        </symbol>
+        <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5.14v13.72a1 1 0 0 0 1.55.83l10.41-6.86a1 1 0 0 0 0-1.66L9.55 4.31A1 1 0 0 0 8 5.14z"/>
+        </symbol>
+        <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="5" width="4" height="14" rx="1"/>
+            <rect x="14" y="5" width="4" height="14" rx="1"/>
+        </symbol>
+        <symbol id="i-replay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 2.64-6.36"/>
+            <polyline points="3 4 3 10 9 10"/>
+        </symbol>
+        <symbol id="i-music" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3" fill="currentColor"/>
+            <circle cx="18" cy="16" r="3" fill="currentColor"/>
+        </symbol>
+        <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 6l12 12"/>
+            <path d="M18 6L6 18"/>
+        </symbol>
+        <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v5"/>
+            <circle cx="12" cy="16.5" r="0.6" fill="currentColor" stroke="none"/>
+        </symbol>
+    </defs>
+</svg>
+
 <div class="container">
     <header>
-        <h1>📖 Қуръон бетларини текшириш</h1>
+        <h1><svg class="icon icon-lg"><use href="#i-book"/></svg>Қуръон бетларини текшириш</h1>
         <p>Қори: Шайх Айман Сувайд (ҳафизаҳуллоҳ)</p>
     </header>
 
@@ -34,15 +81,18 @@
         </div>
 
         <button class="btn btn-primary" id="showBtn" type="button">
-            🔊 Бетни Кўрсатиш
+            <svg class="icon"><use href="#i-volume"/></svg>
+            <span>Бетни кўрсатиш</span>
         </button>
 
         <div class="nav-buttons">
             <button class="btn-nav" id="prevBtn" type="button" disabled>
-                ⬅️ Олдинги бет
+                <svg class="icon"><use href="#i-arrow-left"/></svg>
+                <span>Олдинги бет</span>
             </button>
             <button class="btn-nav" id="nextBtn" type="button" disabled>
-                Кейинги бет ➡️
+                <span>Кейинги бет</span>
+                <svg class="icon"><use href="#i-arrow-right"/></svg>
             </button>
         </div>
     </div>
@@ -61,13 +111,15 @@
         <div class="page-info" id="pageInfo"></div>
 
         <div class="global-controls">
-            <h3>🎵 Бутун бетни эшитиш</h3>
+            <h3><svg class="icon"><use href="#i-music"/></svg>Бутун бетни эшитиш</h3>
             <div class="global-buttons">
                 <button class="audio-btn btn-play" id="playAllBtn" type="button">
-                    ▶️ Бошидан қўйиш
+                    <svg class="icon"><use href="#i-play"/></svg>
+                    <span>Бошидан қўйиш</span>
                 </button>
                 <button class="audio-btn btn-pause" id="pauseAllBtn" type="button">
-                    ⏸️ Тўхтатиш
+                    <svg class="icon"><use href="#i-pause"/></svg>
+                    <span>Тўхтатиш</span>
                 </button>
             </div>
             <p class="info-text">Барча оятлар кетма-кет автоматик янграйди</p>
@@ -79,16 +131,24 @@
 
 <div class="sticky-audio" id="stickyAudio" role="region" aria-label="Аудио плеер">
     <div class="sticky-info">
-        <div class="sticky-title" id="stickyTitle">—</div>
-        <div class="sticky-progress">
+        <div class="sticky-row">
+            <span class="sticky-title" id="stickyTitle">—</span>
+            <span class="sticky-time" id="stickyTime">0:00 / 0:00</span>
+        </div>
+        <div class="sticky-progress" id="stickyProgressTrack" role="slider" aria-label="Аудио позицияси">
             <div class="sticky-progress-bar" id="stickyProgressBar"></div>
+            <div class="sticky-progress-handle" id="stickyProgressHandle"></div>
         </div>
     </div>
-    <button class="sticky-btn" id="stickyToggleBtn" type="button" aria-label="Қўйиш/Тўхтатиш">⏸</button>
-    <button class="sticky-close" id="stickyCloseBtn" type="button" aria-label="Ёпиш">✕</button>
+    <button class="sticky-btn" id="stickyToggleBtn" type="button" aria-label="Қўйиш/Тўхтатиш">
+        <svg class="icon"><use href="#i-pause"/></svg>
+    </button>
+    <button class="sticky-close" id="stickyCloseBtn" type="button" aria-label="Ёпиш">
+        <svg class="icon"><use href="#i-close"/></svg>
+    </button>
 </div>
 
-<script src="app.js?v=6" defer></script>
+<script src="app.js?v=7" defer></script>
 
 </body>
 </html>
