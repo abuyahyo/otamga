@@ -24,9 +24,42 @@ const els = {
     ayatlarRoyxati: document.getElementById('ayatlarRoyxati'),
     playAllBtn: document.getElementById('playAllBtn'),
     pauseAllBtn: document.getElementById('pauseAllBtn'),
+    debugInfo: document.getElementById('debugInfo'),
+    debugLog: document.getElementById('debugLog'),
 };
 
 const audio = new Audio();
+audio.preload = 'auto';
+audio.volume = 1.0;
+audio.muted = false;
+
+function debugLog(msg, kind = '') {
+    if (!els.debugLog) return;
+    const line = document.createElement('div');
+    line.className = 'log-line' + (kind ? ' ' + kind : '');
+    const time = new Date().toLocaleTimeString();
+    line.textContent = `[${time}] ${msg}`;
+    els.debugLog.appendChild(line);
+    while (els.debugLog.children.length > 30) {
+        els.debugLog.removeChild(els.debugLog.firstChild);
+    }
+    els.debugLog.scrollTop = els.debugLog.scrollHeight;
+}
+
+function debugInfo(msg) {
+    if (els.debugInfo) els.debugInfo.textContent = msg;
+}
+
+[
+    'loadstart', 'loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough',
+    'play', 'playing', 'pause', 'ended', 'stalled', 'suspend', 'waiting',
+    'abort', 'emptied',
+].forEach(evt => {
+    audio.addEventListener(evt, () => {
+        const dur = isFinite(audio.duration) ? audio.duration.toFixed(2) + 's' : '?';
+        debugLog(`${evt} (duration=${dur}, currentTime=${audio.currentTime.toFixed(2)}s)`);
+    });
+});
 
 function xatolikniKorsatish(xabar) {
     els.errorDiv.textContent = '❌ ' + xabar;
@@ -204,19 +237,22 @@ const ERR_CODES = {
 
 audio.addEventListener('error', () => {
     if (!audio.src) return;
+    const code = audio.error?.code;
+    const codeName = ERR_CODES[code] || `code ${code}`;
+    debugLog(`✗ error event: ${codeName}`, 'warn');
     const oyat = state.oyatlar[state.joriyOyatIndex];
     const fallbacks = oyat?.audioUrls || [];
     const nextIndex = (state.fallbackIndex ?? 0) + 1;
     if (nextIndex < fallbacks.length) {
         state.fallbackIndex = nextIndex;
+        debugInfo(`URL (fallback ${nextIndex}): ${fallbacks[nextIndex]}`);
+        debugLog(`↻ trying fallback ${nextIndex}`, 'warn');
         audio.src = fallbacks[nextIndex];
         audio.play().catch(() => {});
         return;
     }
     state.avtomatikQoyish = false;
     playingnyOlibTashlash();
-    const code = audio.error?.code;
-    const codeName = ERR_CODES[code] || `code ${code}`;
     xatolikniKorsatish(`Аудиони юклашда муаммо (${codeName}). URL: ${audio.src}`);
 });
 
@@ -239,8 +275,13 @@ function oyatniQoyish(index, autoMode = false) {
         return;
     }
 
+    debugInfo(`URL: ${urls[0]}`);
+    debugLog(`▶ Set src for ayah ${index}`, 'ok');
     audio.src = urls[0];
-    audio.play().catch(err => {
+    audio.play().then(() => {
+        debugLog(`✓ play() resolved (volume=${audio.volume}, muted=${audio.muted}, paused=${audio.paused})`, 'ok');
+    }).catch(err => {
+        debugLog(`✗ play() rejected: ${err.name} - ${err.message}`, 'warn');
         xatolikniKorsatish('Аудиони қўйишда муаммо: ' + err.message + ' — ' + audio.src);
     });
 }
