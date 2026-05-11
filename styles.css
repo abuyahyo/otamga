@@ -9,18 +9,13 @@
     --text-muted: #8fab95;
     --text-inverse: #0a1c14;
     --primary: #95d5b2;
-    --primary-hover: #b7e4c7;
     --primary-light: #74c69d;
     --accent: #74c69d;
-    --accent-2: #95d5b2;
-    --warn: #e0a857;
-    --warn-hover: #f0bf75;
     --error-bg: #3a1818;
     --error-border: #8b3a3a;
     --error-text: #f5b5b5;
     --gold: #d4af37;
     --gold-light: #e8c547;
-    --gold-soft: #6b5418;
     --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
     --shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.5);
@@ -140,7 +135,7 @@ input:focus {
     box-shadow: 0 0 0 4px rgba(184, 148, 31, 0.15);
 }
 
-.btn {
+.btn-primary {
     width: 100%;
     padding: 16px;
     font-size: 19px;
@@ -151,14 +146,9 @@ input:focus {
     transition: all var(--transition);
     margin-top: 8px;
     font-family: inherit;
-}
-
-.btn-primary {
     background: linear-gradient(135deg, var(--primary-light), var(--primary));
     color: var(--text-inverse);
     box-shadow: var(--shadow-sm);
-    position: relative;
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
