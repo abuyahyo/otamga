@@ -1,0 +1,85 @@
+/* ============================================================
+   Қуръон илова палитраси
+   https://abuyahyo.github.io/quron/
+   ============================================================ */
+
+:root {
+  /* Фонлар (қоронғи режим — стандарт) */
+  --bg:            #0c1410;            /* Саҳифа фони */
+  --bg-sub:        #0f1814;            /* Иккиламчи фон */
+  --surface:       #152018;            /* Карта, попове­р фони */
+  --surface-hi:    #1d2a22;            /* Hover ҳолат */
+  --surface-elev:  #22332a;            /* Кўтарилган элемент */
+
+  /* Чегаралар */
+  --border:        rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.14);
+  --divider:       rgba(255,255,255,0.06);
+
+  /* Матн */
+  --text:          #e8efeb;            /* Асосий матн */
+  --text-dim:      #a8b4ad;            /* Иккинчи даражали */
+  --text-muted:    #6e7c76;            /* Сўнган */
+
+  /* Зумрад — асосий аксент (тугмалар, линклар, фокус) */
+  --emerald:        #10b981;
+  --emerald-bright: #34d399;
+  --emerald-dim:    #059669;
+  --emerald-soft:   rgba(16,185,129,0.13);
+
+  /* Олтин — иккинчи аксент (арабча матн, белгилаш) */
+  --gold:      #d4a843;
+  --gold-dim:  #a37f30;
+  --gold-soft: rgba(212,168,67,0.13);
+
+  /* Шаффоф хедер фони (backdrop-filter билан) */
+  --header-bg: rgba(12,20,16,0.92);
+
+  /* Соялар */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* ============================================================
+   Ёруғ режим — <html class="light"> ёки <body class="light">
+   ============================================================ */
+.light {
+  --bg:            #fafbf9;
+  --bg-sub:        #f1f4f1;
+  --surface:       #ffffff;
+  --surface-hi:    #f5f8f6;
+  --surface-elev:  #ebefed;
+
+  --border:        rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.14);
+  --divider:       rgba(0,0,0,0.06);
+
+  --text:          #0f1a14;
+  --text-dim:      #4a5550;
+  --text-muted:    #7a857f;
+
+  --emerald:        #059669;
+  --emerald-bright: #10b981;
+  --emerald-dim:    #047857;
+  --emerald-soft:   rgba(5,150,105,0.11);
+
+  --gold:      #a37f30;
+  --gold-dim:  #7a5e1a;
+  --gold-soft: rgba(163,127,48,0.11);
+
+  --header-bg: rgba(250,251,249,0.92);
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 6px 18px rgba(0,0,0,0.07);
+}
+
+/* ============================================================
+   Қўлланиш мисоли
+   ============================================================
+body   { background: var(--bg); color: var(--text); }
+.card  { background: var(--surface); border: 1px solid var(--border);
+         border-radius: 14px; box-shadow: var(--shadow-sm); }
+.btn   { background: var(--emerald); color: #fff; }
+.btn:hover { background: var(--emerald-bright); }
+.tag   { background: var(--emerald-soft); color: var(--emerald); }
+============================================================ */

@@ -1,28 +1,97 @@
 :root {
-    --bg: #0a1c14;
-    --surface: #122c20;
-    --surface-2: #0f261b;
-    --surface-3: #173728;
-    --border: #234a36;
-    --border-strong: #2d6a4f;
-    --text: #dceadb;
-    --text-muted: #8fab95;
-    --text-inverse: #0a1c14;
-    --primary: #95d5b2;
-    --primary-light: #74c69d;
-    --accent: #74c69d;
+    --bg: #0c1410;
+    --bg-sub: #0f1814;
+    --surface: #152018;
+    --surface-2: #0f1814;
+    --surface-3: #1d2a22;
+    --surface-elev: #22332a;
+    --border: #1f2a24;
+    --border-strong: #2d3a33;
+    --divider: #18221c;
+    --text: #e8efeb;
+    --text-muted: #a8b4ad;
+    --text-dim: #6e7c76;
+    --text-inverse: #0c1410;
+    --primary: #34d399;
+    --primary-light: #10b981;
+    --primary-dim: #059669;
+    --primary-soft: rgba(16, 185, 129, 0.13);
+    --accent: #10b981;
     --error-bg: #3a1818;
     --error-border: #8b3a3a;
     --error-text: #f5b5b5;
-    --gold: #d4af37;
-    --gold-light: #e8c547;
-    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
-    --shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+    --gold: #d4a843;
+    --gold-light: #e6c26a;
+    --gold-dim: #a37f30;
+    --gold-soft: rgba(212, 168, 67, 0.13);
+    --header-bg: rgba(12, 20, 16, 0.92);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
     --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.5);
     --radius: 16px;
     --radius-sm: 10px;
     --radius-pill: 999px;
     --transition: 200ms cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.light {
+    --bg: #fafbf9;
+    --bg-sub: #f1f4f1;
+    --surface: #ffffff;
+    --surface-2: #f1f4f1;
+    --surface-3: #f5f8f6;
+    --surface-elev: #ebefed;
+    --border: #e3e8e5;
+    --border-strong: #c9d2cc;
+    --divider: #eef1ef;
+    --text: #0f1a14;
+    --text-muted: #4a5550;
+    --text-dim: #7a857f;
+    --text-inverse: #ffffff;
+    --primary: #059669;
+    --primary-light: #10b981;
+    --primary-dim: #047857;
+    --primary-soft: rgba(5, 150, 105, 0.11);
+    --accent: #059669;
+    --gold: #a37f30;
+    --gold-light: #d4a843;
+    --gold-dim: #7a5e1a;
+    --gold-soft: rgba(163, 127, 48, 0.11);
+    --header-bg: rgba(250, 251, 249, 0.92);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not(.dark) {
+        --bg: #fafbf9;
+        --bg-sub: #f1f4f1;
+        --surface: #ffffff;
+        --surface-2: #f1f4f1;
+        --surface-3: #f5f8f6;
+        --surface-elev: #ebefed;
+        --border: #e3e8e5;
+        --border-strong: #c9d2cc;
+        --divider: #eef1ef;
+        --text: #0f1a14;
+        --text-muted: #4a5550;
+        --text-dim: #7a857f;
+        --text-inverse: #ffffff;
+        --primary: #059669;
+        --primary-light: #10b981;
+        --primary-dim: #047857;
+        --primary-soft: rgba(5, 150, 105, 0.11);
+        --accent: #059669;
+        --gold: #a37f30;
+        --gold-light: #d4a843;
+        --gold-dim: #7a5e1a;
+        --gold-soft: rgba(163, 127, 48, 0.11);
+        --header-bg: rgba(250, 251, 249, 0.92);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+        --shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+        --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.1);
+    }
 }
 
 * {
@@ -132,7 +201,7 @@ input {
 input:focus {
     outline: none;
     border-color: var(--gold);
-    box-shadow: 0 0 0 4px rgba(184, 148, 31, 0.15);
+    box-shadow: 0 0 0 4px var(--gold-soft);
 }
 
 .btn-primary {
@@ -209,7 +278,7 @@ input:focus {
 }
 
 .surah-divider {
-    background: linear-gradient(135deg, #0f2a20, #1c4030);
+    background: linear-gradient(135deg, var(--surface-2), var(--surface-elev));
     color: var(--text);
     padding: 22px 16px;
     border-radius: var(--radius);
@@ -220,7 +289,7 @@ input:focus {
     box-shadow: var(--shadow);
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(212, 175, 55, 0.18);
+    border: 1px solid var(--gold-soft);
 }
 
 .surah-divider::before {
@@ -292,10 +361,10 @@ input:focus {
 
 @keyframes gentle-pulse {
     0%, 100% {
-        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18), var(--shadow);
+        box-shadow: 0 0 0 3px var(--gold-soft), var(--shadow);
     }
     50% {
-        box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.32), var(--shadow-lg);
+        box-shadow: 0 0 0 6px var(--gold-soft), var(--shadow-lg);
     }
 }
 
@@ -526,7 +595,7 @@ input:focus {
     background: var(--gold-light);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
+    box-shadow: 0 0 0 3px var(--gold-soft);
     transition: left 100ms linear, transform 150ms ease;
     z-index: 2;
     pointer-events: none;
