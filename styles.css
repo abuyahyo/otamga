@@ -63,36 +63,8 @@
     --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.1);
 }
 
-@media (prefers-color-scheme: light) {
-    :root:not(.dark) {
-        --bg: #fafbf9;
-        --bg-sub: #f1f4f1;
-        --surface: #ffffff;
-        --surface-2: #f1f4f1;
-        --surface-3: #f5f8f6;
-        --surface-elev: #ebefed;
-        --border: #e3e8e5;
-        --border-strong: #c9d2cc;
-        --divider: #eef1ef;
-        --text: #0f1a14;
-        --text-muted: #4a5550;
-        --text-dim: #7a857f;
-        --text-inverse: #ffffff;
-        --primary: #059669;
-        --primary-light: #10b981;
-        --primary-dim: #047857;
-        --primary-soft: rgba(5, 150, 105, 0.11);
-        --accent: #059669;
-        --gold: #a37f30;
-        --gold-light: #d4a843;
-        --gold-dim: #7a5e1a;
-        --gold-soft: rgba(163, 127, 48, 0.11);
-        --header-bg: rgba(250, 251, 249, 0.92);
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-        --shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
-        --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.1);
-    }
-}
+html.light { color-scheme: light; }
+html.dark { color-scheme: dark; }
 
 * {
     margin: 0;
@@ -162,6 +134,45 @@ header h1 {
     letter-spacing: 0.2px;
     line-height: 1.35;
     margin: 4px 0;
+    padding: 0 44px;
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border);
+    background: var(--surface-3);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.theme-toggle:hover {
+    color: var(--gold-light);
+    border-color: var(--gold-soft);
+    background: var(--surface-elev);
+}
+
+.theme-toggle:active {
+    transform: scale(0.92);
+}
+
+.theme-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--gold-soft);
+}
+
+.theme-toggle .icon {
+    width: 18px;
+    height: 18px;
 }
 
 .form-section {

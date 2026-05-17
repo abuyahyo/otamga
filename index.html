@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0c1410" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#fafbf9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c1410" id="themeColorMeta">
 <title>Отамга — Қуръон бетларини текшириш</title>
 
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2">
@@ -17,8 +16,22 @@
 <meta name="apple-mobile-web-app-title" content="Отамга">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+<script>
+(function () {
+    try {
+        var saved = localStorage.getItem('theme');
+        var mode = saved === 'light' || saved === 'dark'
+            ? saved
+            : (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.classList.add(mode);
+        var meta = document.getElementById('themeColorMeta');
+        if (meta) meta.setAttribute('content', mode === 'light' ? '#fafbf9' : '#0c1410');
+    } catch (e) {}
+})();
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=19">
+<link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
 
@@ -45,12 +58,29 @@
             <path d="M12 8v5"/>
             <circle cx="12" cy="16.5" r="0.6" fill="currentColor" stroke="none"/>
         </symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/>
+            <path d="M12 20v2"/>
+            <path d="M4.93 4.93l1.41 1.41"/>
+            <path d="M17.66 17.66l1.41 1.41"/>
+            <path d="M2 12h2"/>
+            <path d="M20 12h2"/>
+            <path d="M4.93 19.07l1.41-1.41"/>
+            <path d="M17.66 6.34l1.41-1.41"/>
+        </symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </symbol>
     </defs>
 </svg>
 
 <div class="container">
     <header>
         <h1>Қори: Шайх Айман Сувайд</h1>
+        <button class="theme-toggle" id="themeToggleBtn" type="button" aria-label="Темани алмаштириш" title="Темани алмаштириш">
+            <svg class="icon"><use href="#i-moon"/></svg>
+        </button>
     </header>
 
     <div class="form-section">
@@ -101,7 +131,7 @@
     </button>
 </div>
 
-<script src="app.js?v=18" defer></script>
+<script src="app.js?v=20" defer></script>
 
 </body>
 </html>

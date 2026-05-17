@@ -87,6 +87,7 @@ const els = {
     stickyProgressHandle: document.getElementById('stickyProgressHandle'),
     stickyToggleBtn: document.getElementById('stickyToggleBtn'),
     stickyCloseBtn: document.getElementById('stickyCloseBtn'),
+    themeToggleBtn: document.getElementById('themeToggleBtn'),
 };
 
 const audio = new Audio();
@@ -399,6 +400,27 @@ els.stickyProgressTrack.addEventListener('pointercancel', () => {
 els.showBtn.addEventListener('click', betniKorsatish);
 els.stickyToggleBtn.addEventListener('click', stickyToxtatishToggle);
 els.stickyCloseBtn.addEventListener('click', hammasiniToxtatish);
+
+function themaniYangilash() {
+    const light = document.documentElement.classList.contains('light');
+    els.themeToggleBtn.replaceChildren(icon(light ? 'sun' : 'moon'));
+    els.themeToggleBtn.setAttribute('aria-label',
+        light ? 'Қоронғи режимга ўтиш' : 'Ёруғ режимга ўтиш');
+    const meta = document.getElementById('themeColorMeta');
+    if (meta) meta.setAttribute('content', light ? '#fafbf9' : '#0c1410');
+}
+
+function themaniAlmashtirish() {
+    const root = document.documentElement;
+    const next = root.classList.contains('light') ? 'dark' : 'light';
+    root.classList.remove('light', 'dark');
+    root.classList.add(next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    themaniYangilash();
+}
+
+themaniYangilash();
+els.themeToggleBtn.addEventListener('click', themaniAlmashtirish);
 
 els.pageInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
