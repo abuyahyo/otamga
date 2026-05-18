@@ -422,7 +422,7 @@ function themaniAlmashtirish() {
 themaniYangilash();
 els.themeToggleBtn.addEventListener('click', themaniAlmashtirish);
 
-els.pageInput.addEventListener('keypress', (e) => {
+els.pageInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
         betniKorsatish();
     }
