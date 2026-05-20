@@ -141,5 +141,62 @@
 
 <script src="app.js?v=21" defer></script>
 
+<script>
+(function () {
+    if (!('serviceWorker' in navigator)) return;
+
+    var hadController = !!navigator.serviceWorker.controller;
+    var pendingReload = false;
+    var reloading = false;
+
+    function safeReload() {
+        if (reloading) return;
+        reloading = true;
+        location.reload();
+    }
+
+    function maybeReloadIfHidden() {
+        if (!pendingReload) return;
+        if (document.visibilityState === 'hidden') {
+            safeReload();
+        }
+    }
+
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (!hadController) return;
+        pendingReload = true;
+        maybeReloadIfHidden();
+    });
+
+    document.addEventListener('visibilitychange', maybeReloadIfHidden);
+
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+            .then(function (reg) {
+                reg.update().catch(function () {});
+                setInterval(function () { reg.update().catch(function () {}); }, 60 * 60 * 1000);
+
+                function activateWaiting() {
+                    if (reg.waiting && navigator.serviceWorker.controller) {
+                        reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+                    }
+                }
+
+                activateWaiting();
+                reg.addEventListener('updatefound', function () {
+                    var nw = reg.installing;
+                    if (!nw) return;
+                    nw.addEventListener('statechange', function () {
+                        if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+                            nw.postMessage({ type: 'SKIP_WAITING' });
+                        }
+                    });
+                });
+            })
+            .catch(function () {});
+    });
+})();
+</script>
+
 </body>
 </html>
