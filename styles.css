@@ -1,6 +1,5 @@
 :root {
     --bg: #060d0a;
-    --bg-base: radial-gradient(120% 80% at 50% 0%, #0d1b14 0%, #060d0a 60%, #04090a 100%);
     --surface-solid: #0f1814;
     --surface-solid-2: #152018;
     --text: #e8efeb;
@@ -34,11 +33,6 @@
     --glass-blur: 22px;
     --glass-blur-strong: 30px;
     --glass-saturation: 160%;
-
-    /* Aurora colors */
-    --aurora-1: rgba(52, 211, 153, 0.55);
-    --aurora-2: rgba(240, 207, 120, 0.40);
-    --aurora-3: rgba(16, 185, 129, 0.45);
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
     --shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -78,88 +72,18 @@ html, body {
 
 body {
     font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-    background: var(--bg);
+    background:
+        radial-gradient(60vmax 50vmax at 50% 0%, rgba(16, 185, 129, 0.16), transparent 70%),
+        var(--bg);
+    background-attachment: fixed;
     color: var(--text);
     min-height: 100vh;
     padding: 24px 16px 120px;
     line-height: 1.6;
-    transition: background var(--transition), color var(--transition);
+    transition: color var(--transition);
     -webkit-font-smoothing: antialiased;
     position: relative;
     overflow-x: hidden;
-}
-
-/* ===== Aurora background ===== */
-.aurora {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
-    background: var(--bg-base);
-}
-
-.aurora-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: 0.9;
-    will-change: transform;
-    mix-blend-mode: screen;
-}
-
-.aurora-blob-1 {
-    width: 55vmin;
-    height: 55vmin;
-    left: -10vmin;
-    top: -10vmin;
-    background: var(--aurora-1);
-    animation: aurora-drift-1 22s ease-in-out infinite alternate;
-}
-
-.aurora-blob-2 {
-    width: 60vmin;
-    height: 60vmin;
-    right: -15vmin;
-    top: 10vmin;
-    background: var(--aurora-2);
-    animation: aurora-drift-2 28s ease-in-out infinite alternate;
-}
-
-.aurora-blob-3 {
-    width: 70vmin;
-    height: 70vmin;
-    left: 20vmin;
-    bottom: -25vmin;
-    background: var(--aurora-3);
-    animation: aurora-drift-3 32s ease-in-out infinite alternate;
-}
-
-.aurora-grain {
-    position: absolute;
-    inset: 0;
-    background-image:
-        radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-        radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-    background-size: 3px 3px, 5px 5px;
-    background-position: 0 0, 1px 1px;
-    opacity: 0.6;
-    mix-blend-mode: overlay;
-}
-
-@keyframes aurora-drift-1 {
-    0%   { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(15vmin, 12vmin) scale(1.15); }
-}
-
-@keyframes aurora-drift-2 {
-    0%   { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-12vmin, 18vmin) scale(1.1); }
-}
-
-@keyframes aurora-drift-3 {
-    0%   { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-10vmin, -14vmin) scale(1.2); }
 }
 
 /* ===== Glass surface base ===== */
@@ -900,10 +824,6 @@ input:focus {
         right: 10px;
         border-radius: 18px;
     }
-
-    .aurora-blob {
-        filter: blur(50px);
-    }
 }
 
 /* ===== Fallbacks for browsers without backdrop-filter ===== */
@@ -931,9 +851,5 @@ input:focus {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
-    }
-
-    .aurora-blob {
-        animation: none !important;
     }
 }
