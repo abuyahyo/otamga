@@ -1,6 +1,6 @@
 'use strict';
 
-const VERSION = 'v3';
+const VERSION = 'v4';
 const SHELL_CACHE = `otamga-shell-${VERSION}`;
 const STATIC_CACHE = `otamga-static-${VERSION}`;
 const FONTS_CACHE = `otamga-fonts-${VERSION}`;

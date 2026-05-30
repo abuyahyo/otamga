@@ -790,6 +790,153 @@ input:focus {
     transform: scale(0.92);
 }
 
+/* ===== Install banner (PWA prompt) ===== */
+.install-banner {
+    position: fixed;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    left: 16px;
+    right: 16px;
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    box-shadow:
+        inset 0 1px 0 0 var(--glass-highlight),
+        inset 0 -1px 0 0 var(--glass-highlight-soft),
+        0 18px 50px rgba(0, 0, 0, 0.45),
+        0 4px 12px rgba(0, 0, 0, 0.25);
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 110;
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturation));
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturation));
+    animation: install-slide-up 400ms cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.install-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent);
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+.install-banner[hidden] { display: none; }
+
+body:has(.sticky-audio.visible) .install-banner {
+    bottom: calc(96px + env(safe-area-inset-bottom));
+}
+
+@keyframes install-slide-up {
+    from { transform: translateY(120%); opacity: 0; }
+    to   { transform: translateY(0);     opacity: 1; }
+}
+
+.install-banner-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    box-shadow:
+        0 0 0 1px var(--glass-border),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.install-banner-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.install-banner-text strong {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1.2;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.install-banner-text p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--text-muted);
+}
+
+.install-banner-action {
+    flex-shrink: 0;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    color: var(--text-inverse);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 50%),
+        linear-gradient(135deg, var(--primary-light), var(--accent));
+    box-shadow:
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 0 rgba(0, 0, 0, 0.18),
+        0 6px 16px rgba(16, 185, 129, 0.30);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all var(--transition);
+}
+
+.install-banner-action:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
+        inset 0 -1px 0 0 rgba(0, 0, 0, 0.18),
+        0 10px 22px rgba(16, 185, 129, 0.42);
+}
+
+.install-banner-action:active {
+    transform: scale(0.96);
+}
+
+.install-banner-close {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg-soft);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+}
+
+.install-banner-close:hover {
+    color: var(--text);
+    border-color: var(--glass-border-strong);
+}
+
+.install-banner-close:active {
+    transform: scale(0.92);
+}
+
+.install-banner-close .icon {
+    width: 14px;
+    height: 14px;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 600px) {
     body {
@@ -826,6 +973,40 @@ input:focus {
     }
 }
 
+@media (max-width: 480px) {
+    .install-banner {
+        left: 10px;
+        right: 10px;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+        padding: 12px;
+        gap: 10px;
+        border-radius: 18px;
+    }
+
+    body:has(.sticky-audio.visible) .install-banner {
+        bottom: calc(86px + env(safe-area-inset-bottom));
+    }
+
+    .install-banner-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+    }
+
+    .install-banner-text strong { font-size: 14px; }
+    .install-banner-text p { font-size: 12px; }
+
+    .install-banner-action {
+        padding: 9px 14px;
+        font-size: 13px;
+    }
+
+    .install-banner-close {
+        width: 28px;
+        height: 28px;
+    }
+}
+
 /* ===== Fallbacks for browsers without backdrop-filter ===== */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     .container,
@@ -836,6 +1017,8 @@ input:focus {
     .sticky-audio,
     .arabic-text,
     .sticky-close,
+    .install-banner,
+    .install-banner-close,
     input {
         background: var(--surface-solid);
     }
