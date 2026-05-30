@@ -18,7 +18,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=24">
+<link rel="stylesheet" href="styles.css?v=25">
 </head>
 <body>
 
@@ -101,7 +101,76 @@
     </button>
 </div>
 
-<script src="app.js?v=22" defer></script>
+<div class="install-banner" id="install-banner" hidden>
+    <img src="icon-192.png?v=3" alt="" class="install-banner-icon">
+    <div class="install-banner-text">
+        <strong>Иловани ўрнатиш</strong>
+        <p>Ушбу иловани телефонингизга ўрнатинг — оффлайн ҳам ишлайди.</p>
+    </div>
+    <button class="install-banner-action" id="install-banner-action" type="button">Ўрнатиш</button>
+    <button class="install-banner-close" id="install-banner-close" type="button" aria-label="Ёпиш">
+        <svg class="icon"><use href="#i-close"/></svg>
+    </button>
+</div>
+
+<script src="app.js?v=23" defer></script>
+
+<script>
+(function () {
+    var INSTALL_DISMISS_KEY = 'otamga_install_dismissed_at';
+    var INSTALL_DISMISS_TTL = 14 * 24 * 60 * 60 * 1000;
+    var deferredInstallPrompt = null;
+    var installBanner = document.getElementById('install-banner');
+    var installAction = document.getElementById('install-banner-action');
+    var installClose = document.getElementById('install-banner-close');
+
+    function isInstallDismissed() {
+        try {
+            var t = Number(localStorage.getItem(INSTALL_DISMISS_KEY) || 0);
+            return t && (Date.now() - t < INSTALL_DISMISS_TTL);
+        } catch (e) { return false; }
+    }
+    function isStandalone() {
+        return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+            || window.navigator.standalone === true;
+    }
+    function showInstallBanner() {
+        if (!installBanner || !deferredInstallPrompt) return;
+        if (isStandalone() || isInstallDismissed()) return;
+        installBanner.hidden = false;
+    }
+    function hideInstallBanner() { if (installBanner) installBanner.hidden = true; }
+
+    window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        showInstallBanner();
+    });
+    window.addEventListener('appinstalled', function () {
+        deferredInstallPrompt = null;
+        hideInstallBanner();
+        try { localStorage.removeItem(INSTALL_DISMISS_KEY); } catch (e) {}
+    });
+    if (installAction) {
+        installAction.addEventListener('click', function () {
+            if (!deferredInstallPrompt) { hideInstallBanner(); return; }
+            hideInstallBanner();
+            try {
+                deferredInstallPrompt.prompt();
+                deferredInstallPrompt.userChoice.finally(function () {
+                    deferredInstallPrompt = null;
+                });
+            } catch (e) { deferredInstallPrompt = null; }
+        });
+    }
+    if (installClose) {
+        installClose.addEventListener('click', function () {
+            try { localStorage.setItem(INSTALL_DISMISS_KEY, String(Date.now())); } catch (e) {}
+            hideInstallBanner();
+        });
+    }
+})();
+</script>
 
 <script>
 (function () {
